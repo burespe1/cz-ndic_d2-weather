@@ -42,3 +42,23 @@ Stejná zpráva, jejíž poloha odkazuje na skupinu předdefinovaných poloh (`L
 ----
 include::{samplesdir}/visibility-loc_group.xml[tags=**]
 ----
+
+=== aquaplaning.xml – nebezpečí akvaplaningu
+
+Průběžně aktualizovaná zpráva o hrozícím akvaplaningu.
+
+[source,xml]
+----
+include::{samplesdir}/aquaplaning.xml[tags=**]
+----
+
+Záznam::
+Typ `WeatherRelatedRoadConditions` s hodnotou `surfaceWater` (voda na vozovce). Jde o hrozící jev,
+proto `probabilityOfOccurrence` = `riskOf`.
+
+Verze a platnost::
+Záznam vznikl v 0:01 (`situationRecordCreationTime`) a do 21:48 byl aktualizován na verzi 212. Každá
+verze platí 20 minut – tato od 21:46 do 22:06.
+
+Poloha::
+Odkaz na předdefinovaný úsek silnice ve verzi 260601; popis úseku obsahuje publikace formátu `cz-ndic_d2-pls`.

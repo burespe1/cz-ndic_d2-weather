@@ -1,4 +1,66 @@
-== Examples
+== Message examples
 
-// Sample excerpts via tags – in the sample: <!-- tag::location[] --> … <!-- end::location[] -->
-Samples are part of the specification package `{schema-uri}.zip`.
+The samples are part of the specification package `{schema-uri}.zip` (directory `samples`). All of them
+are valid against the DATEX II 3.7 schema and conform to the profile selection (`.sel`).
+
+=== visibility.xml – dense fog
+
+The publication contains one message about dense fog with a minimum visibility of 30 metres.
+
+[source,xml]
+----
+include::{samplesdir}/visibility.xml[tags=**]
+----
+
+Envelope and header::
+Root `d2:payload` of type `sit:SituationPublication` with the `profileName` and `profileVersion`
+attributes, `publicationTime` and `publicationCreator`. The data source reference (`feedType`) is
+`x-source:cz-ndic_d2-weather-v2`.
+
+Situation::
+The situation contains one record of type `PoorEnvironmentConditions` in version 5: dense fog
+(`denseFog`) with a minimum visibility of 30 m (`minimumVisibilityDistance`). The value `certain` marks
+a measured phenomenon, `safetyRelatedMessage` marks it as SRTI information.
+
+Validity::
+The record is valid for 20 minutes – from 4:26:50 to 4:46:50 (`overallStartTime`, `overallEndTime`).
+
+Location::
+The location is a reference to a predefined location (`LocationByReference`, `targetClass` =
+`loc:PredefinedLocation`) with identifier `dde51831-2f37-4f07-8429-286a9d08106c` in version 1; the
+location description is contained in the publication of the `cz-ndic_d2-pls` format.
+
+Other content::
+`source` gives the originator of the information (operators of the road weather stations),
+`generalPublicComment` a free-text description.
+
+=== visibility-loc_group.xml – dense fog for a group of places
+
+The same message, with the location referencing a group of predefined locations
+(`LocationGroupByReference`, `targetClass` = `loc:PredefinedLocationGroup`).
+
+[source,xml]
+----
+include::{samplesdir}/visibility-loc_group.xml[tags=**]
+----
+
+=== aquaplaning.xml – risk of aquaplaning
+
+A continuously updated message about an imminent risk of aquaplaning.
+
+[source,xml]
+----
+include::{samplesdir}/aquaplaning.xml[tags=**]
+----
+
+Record::
+Type `WeatherRelatedRoadConditions` with the value `surfaceWater` (water on the road surface). The
+phenomenon is imminent, hence `probabilityOfOccurrence` = `riskOf`.
+
+Version and validity::
+The record was created at 0:01 (`situationRecordCreationTime`) and by 21:48 it had been updated to
+version 212. Each version is valid for 20 minutes – this one from 21:46 to 22:06.
+
+Location::
+Reference to a predefined road section in version 260601; the section description is contained in the
+publication of the `cz-ndic_d2-pls` format.

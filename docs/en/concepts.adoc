@@ -1,4 +1,171 @@
 == Concepts
 
-Description of the format concepts: content of the publication, static vs. dynamic part,
-location referencing, record versioning. References: <<EN16157-3>>.
+The format publishes warnings of hazardous weather conditions detected by road weather stations on the
+road network. An event is created when a measured value exceeds a defined threshold – for example dense
+fog, strong wind, ice or heavy precipitation. Regular measurements of weather stations are not part of
+the format.
+
+Each road weather station is assigned a known road section covering both directions of travel. The
+location of an event is therefore not described in the message; it is only referenced (see <<polohy>>).
+
+The format is based on the DATEX II publication `SituationPublication` <<EN16157-3>> and uses only a small
+subset of its structures. Compared to version 1.2 (DATEX II 2.3) it has been migrated to the DATEX II 3.7
+model.
+
+[[obalka]]
+=== Envelope and publication header
+
+Each message is a DATEX II 3 document with the root element `d2:payload`. The `d2LogicalModel` and
+`exchange` envelopes of version 2 are no longer used. The `xsi:type` attribute of the root element
+specifies the publication type (here `sit:SituationPublication`), the `modelBaseVersion="3"` attribute
+the model version and the `lang` attribute the default language of texts.
+
+The format the message conforms to is identified solely by attributes of the root element:
+
+[horizontal]
+`profileName`:: format identifier without version (`cz-ndic_d2-weather`),
+`profileVersion`:: format version (`2.0`).
+
+The publication header contains:
+
+* `feedType` – reference to the *data source* (distribution) in the register of the national access
+  point <<nap>>: `x-source:cz-ndic_d2-weather-v2`. The distribution version number (`-v2`) changes
+  independently of the format version; the format is identified by the `profileName` and
+  `profileVersion` attributes. The `feedDescription` element is not used.
+* `publicationTime` – time the publication content was created. If the content has not changed since
+  the previous publication, the original time is kept (as are the HTTP headers `Last-Modified` and
+  `ETag`); a new time is set only when the content changes.
+* `publicationCreator` – publication provider: country code in lower case (`cz`) and provider
+  abbreviation (`nationalIdentifier`).
+* `headerInformation` – handling of the information; NDIC always sets `confidentiality` =
+  `noRestriction` and `informationStatus` = `real`.
+
+All times in the message include the time zone.
+
+.Root element and publication header (sample `visibility.xml`)
+[source,xml]
+----
+include::{samplesdir}/visibility.xml[lines=2]
+include::{samplesdir}/visibility.xml[tag=header,indent=2]
+  ...
+----
+
+[[situace]]
+=== Situations and situation records
+
+Each event detected by a road weather station is described by a `situation` element with a unique
+identifier (`@id`). The situation contains the time of its last change `situationVersionTime`, the
+`headerInformation` header and one `situationRecord`.
+
+.Situation (sample `visibility.xml`)
+[source,xml]
+----
+include::{samplesdir}/visibility.xml[tag=situation-head,indent=0]
+  ...
+</sit:situation>
+----
+
+The information itself is carried by the `situationRecord`; its type (`xsi:type`) corresponds to the
+detected phenomenon (see <<typy>>). More than one record per situation is not expected. The record
+identifier is derived from the situation identifier and the record type.
+
+[[verzovani]]
+==== Versioning
+
+* Each record carries a version number (`@version`), the creation time of its first version
+  `situationRecordCreationTime` and the creation time of the current version
+  `situationRecordVersionTime`.
+* Each change of the record increments its version by one and updates `situationRecordVersionTime`.
+* The situation has no version number; `situationVersionTime` always equals the
+  `situationRecordVersionTime` of its record.
+
+==== Common record content
+
+.Situation record – version, probability and source (sample `visibility.xml`)
+[source,xml]
+----
+include::{samplesdir}/visibility.xml[tag=record-meta,indent=0]
+  ...
+</sit:situationRecord>
+----
+
+* `probabilityOfOccurrence` – `certain` for a measured phenomenon (e.g. dense fog), `riskOf` for an
+  imminent phenomenon (e.g. risk of aquaplaning – sample `aquaplaning.xml`).
+* `safetyRelatedMessage` – `true` marks safety-related traffic information according to Commission
+  Delegated Regulation (EU) No 886/2013 (SRTI). In version 3 it is part of the model; the national
+  extension is no longer used.
+* `source` – originator of the information (`sourceIdentification`, `sourceName`), i.e. the operator of
+  the road weather stations.
+* `generalPublicComment` – textual description of the phenomenon and place, in Czech.
+
+[[typy]]
+=== Record types and description of conditions
+
+The record type corresponds to the detected phenomenon. The format uses these types (subclasses of
+`Conditions`):
+
+[cols="2,4",options="header"]
+|===
+|Record type |Content
+|`PoorEnvironmentConditions` |poor environment conditions (`poorEnvironmentType`), with measured values:
+visibility (`visibility`), wind (`wind`, speed in m/s), temperature (`temperature`), precipitation
+(`precipitationDetail`), humidity (`humidity`)
+|`WeatherRelatedRoadConditions` |weather-related road surface conditions (`weatherRelatedRoadConditionType`,
+e.g. ice, snow, surface water – `surfaceWater`, slippery road – `slippery`)
+|===
+
+.Dense fog with visibility of 30 m (sample `visibility.xml`)
+[source,xml]
+----
+include::{samplesdir}/visibility.xml[tag=conditions,indent=0]
+----
+
+[[platnost]]
+=== Validity
+
+The validity of a record is given by the `validity` structure: `validityStatus` =
+`definedByValidityTimeSpec` and the interval `validityTimeSpecification` starting at `overallStartTime`
+and ending at `overallEndTime`. The validity of a detected phenomenon is set to *20 minutes*. If the
+phenomenon lasts longer, the record is updated continuously: a new version with a new validity interval
+is created, while `situationRecordCreationTime` stays unchanged.
+
+.Record validity (sample `visibility.xml`)
+[source,xml]
+----
+include::{samplesdir}/visibility.xml[tag=validity,indent=0]
+----
+
+[[polohy]]
+== Location referencing
+
+The location of an event is always the known road section assigned to the road weather station, covering
+both directions of travel. The sections are published by the `cz-ndic_d2-pls` format as a set of
+predefined locations (distribution `x-source:cz-ndic_d2-pls-weather-pull-v2`); the message only
+references them and the consumer looks the location up by identifier and version.
+
+The reference is given in the `locationReference` element of type `loc:LocationByReference` with the
+nested `predefinedLocationReference`; the `targetClass` attribute has the fixed value
+`loc:PredefinedLocation`.
+
+The `@id` and `@version` attributes of the reference correspond to the identifier and version of the
+predefined location. The identifier does not change when the location description changes; a change of
+geometry creates a new version.
+
+.Reference to a predefined location (sample `visibility.xml`)
+[source,xml]
+----
+include::{samplesdir}/visibility.xml[tag=loc-ref,indent=0]
+----
+
+The description of the predefined locations themselves is covered by the documentation of the
+`cz-ndic_d2-pls` format.
+
+If the phenomenon concerns several sections at once, the record may reference a *group* of predefined
+locations: the `locationReference` element is then of type `loc:LocationGroupByReference` with the nested
+`predefinedLocationGroupReference` and `targetClass` = `loc:PredefinedLocationGroup`.
+
+.Reference to a group of predefined locations (sample `visibility-loc_group.xml`)
+[source,xml]
+----
+include::{samplesdir}/visibility-loc_group.xml[tag=loc-group,indent=0]
+----

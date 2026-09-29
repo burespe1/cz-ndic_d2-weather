@@ -1,5 +1,7 @@
 == Documentation change history
 
+// Documentation revisions (MAJOR.MINOR.REVISION). Format changes: see CHANGELOG.adoc in the specification.
 === 2.0.0
 
-* first release of the documentation
+* New documentation of the `cz-ndic_d2-weather` format version 2.0 (DATEX II 3.7); replaces the
+  documentation of the cz-ndic_d2-weather-v1.2 format (DATEX II 2.3).

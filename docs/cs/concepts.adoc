@@ -1,9 +1,11 @@
 == Koncepty
 
-Formát publikuje informace o počasí a sjízdnosti komunikací pro sadu předem definovaných míst (zpravidla
-míst s meteostanicí či meteohláskou). Jde o dopravní informace: nepublikují se pravidelně, ale jen při
-předem stanovených situacích, kdy měřené hodnoty překročí prahy – například hustá mlha, silný vítr,
-náledí či intenzivní srážky. Pravidelně měřená data meteostanic do formátu nepatří.
+Formát publikuje výstrahy před nebezpečnými povětrnostními podmínkami, které zjistí meteohlásky na
+silniční síti. Událost vzniká, když měřená hodnota překročí stanovený práh – například hustá mlha, silný
+vítr, náledí či intenzivní srážky. Pravidelně měřená data meteostanic do formátu nepatří.
+
+Každá meteohláska má přiřazen předem známý úsek silnice, který zahrnuje oba směry jízdy. Poloha události
+se proto ve zprávě neuvádí popisem, ale jen odkazem na tento úsek (viz <<polohy>>).
 
 Formát vychází z DATEX II publikace `SituationPublication` <<EN16157-3>> a využívá jen malou podmnožinu
 jejích struktur. Oproti verzi 1.2 (DATEX II 2.3) je převeden na model DATEX II 3.7.
@@ -24,13 +26,9 @@ Formát, podle kterého je zpráva sestavena, identifikují výhradně atributy 
 
 Hlavička publikace obsahuje:
 
-* `feedType` – odkaz na *zdroj dat* (distribuci) v registru národního přístupového bodu <<nap>>,
-  např. `x-source:cz-ndic_d2-weather-v2`. Název distribuce tvoří název formátu, případně obsah distribuce (u VMS `fixed`/`mobile`,
-  u sad poloh `fcd`/`weather`), u snímků (pull) protokol `pull` a celé číslo verze distribuce
-  (`-v1`, `-v2`, …), které se mění nezávisle na verzi formátu a navazuje na řadu distribucí v registru.
-  Verze sítě Global Network není součástí `feedType`; nese ji obsah (verze předdefinovaných poloh).
-  Element neodkazuje na formát; ten určují atributy `profileName` a `profileVersion`. Element
-  `feedDescription` se nepoužívá.
+* `feedType` – odkaz na *zdroj dat* (distribuci) v registru národního přístupového bodu <<nap>>:
+  `x-source:cz-ndic_d2-weather-v2`. Číslo verze distribuce (`-v2`) se mění nezávisle na verzi formátu;
+  formát určují atributy `profileName` a `profileVersion`. Element `feedDescription` se nepoužívá.
 * `publicationTime` – čas vytvoření obsahu publikace. Pokud se obsah od předchozí publikace nezměnil,
   zůstává čas původní (stejně jako hlavičky HTTP `Last-Modified` a `ETag`); nový čas vzniká jen se
   změnou obsahu.
@@ -52,19 +50,21 @@ include::{samplesdir}/visibility.xml[tag=header,indent=2]
 [[situace]]
 === Situace a záznamy situace
 
-Každá událost je popsána elementem `situation` s jednoznačným identifikátorem (`@id`). Situace se může
-v čase vyvíjet; obsahuje čas své poslední změny `situationVersionTime` a hlavičku `headerInformation`.
+Každá událost zjištěná meteohláskou je popsána elementem `situation` s jednoznačným identifikátorem
+(`@id`). Situace obsahuje čas své poslední změny `situationVersionTime`, hlavičku `headerInformation`
+a jeden záznam `situationRecord`.
 
 .Situace (vzorek `visibility.xml`)
 [source,xml]
 ----
 include::{samplesdir}/visibility.xml[tag=situation-head,indent=0]
   ...
+</sit:situation>
 ----
 
-Vlastní informace nesou záznamy `situationRecord`. V jedné situaci může být záznamů více, každý jiného
-typu (`xsi:type`) – typicky příčina (např. nehoda) a její důsledek (např. uzavření silnice). Identifikátor
-záznamu je odvozen od identifikátoru situace a typu záznamu.
+Vlastní informaci nese záznam `situationRecord`; jeho typ (`xsi:type`) odpovídá zjištěnému jevu
+(viz <<typy>>). Více záznamů v jedné situaci se neočekává. Identifikátor záznamu je odvozen od
+identifikátoru situace a typu záznamu.
 
 [[verzovani]]
 ==== Verzování
@@ -72,9 +72,8 @@ záznamu je odvozen od identifikátoru situace a typu záznamu.
 * Každý záznam nese číslo verze (`@version`), čas vzniku první verze `situationRecordCreationTime`
   a čas vzniku aktuální verze `situationRecordVersionTime`.
 * Každá změna záznamu zvyšuje jeho verzi o jedna a mění `situationRecordVersionTime`.
-* Situace ve verzi 3 modelu číslo verze nemá. Její verzi vyjadřuje `situationVersionTime`, který je vždy
-  roven nejnovějšímu `situationRecordVersionTime` jejích záznamů – každá změna záznamu je tedy
-  zároveň novou verzí situace.
+* Situace číslo verze nemá; `situationVersionTime` je vždy roven `situationRecordVersionTime` jejího
+  záznamu.
 
 ==== Společný obsah záznamu
 
@@ -82,28 +81,22 @@ záznamu je odvozen od identifikátoru situace a typu záznamu.
 [source,xml]
 ----
 include::{samplesdir}/visibility.xml[tag=record-meta,indent=0]
+  ...
+</sit:situationRecord>
 ----
 
-* `probabilityOfOccurrence` – `certain` pro nastalou událost, `probable` pro pravděpodobnou,
-  `riskOf` pro plánovanou událost, která zatím nenastala.
+* `probabilityOfOccurrence` – `certain` pro naměřený jev (např. hustá mlha), `riskOf` pro jev, který
+  hrozí (např. nebezpečí akvaplaningu – vzorek `aquaplaning.xml`).
 * `safetyRelatedMessage` – `true` označuje informaci související s bezpečností silničního provozu podle
   nařízení v přenesené pravomoci (EU) č. 886/2013 (SRTI). Ve verzi 3 je součástí modelu, národní
   rozšíření se již nepoužívá.
-* `source` – kdo informaci vytvořil a odpovídá za její správnost (`sourceIdentification`, případně
-  `sourceName`).
-* `generalPublicComment` – volný popis události jejím tvůrcem, zpravidla česky.
-* `urlLink` – odkaz na webovou stránku s podrobnostmi o události (`urlLinkType` = `html`).
-
-NOTE: Souhrnný záznam situace (`situationSummary`), který model 3.7 nabízí, se zatím nepoužívá: souhrn
-musí mít vlastní polohu, platnost a povinné prvky typu, takže zprávy prodlužuje. Komentáře zůstávají
-v jednotlivých záznamech.
+* `source` – původce informace (`sourceIdentification`, `sourceName`), tj. správce meteohlásek.
+* `generalPublicComment` – slovní popis jevu a místa, česky.
 
 [[typy]]
 === Typy záznamů a popis podmínek
 
-Do publikace patří vlivy počasí na provoz: déšť, sníh, vítr, mlha, náledí, teplota a podobně. Dopady
-událostí (zdržení, kapacita) se nepopisují. Formát používá tyto typy záznamů (potomci třídy
-`Conditions`):
+Typ záznamu odpovídá zjištěnému jevu. Formát používá tyto typy (potomci třídy `Conditions`):
 
 [cols="2,4",options="header"]
 |===
@@ -112,9 +105,7 @@ událostí (zdržení, kapacita) se nepopisují. Formát používá tyto typy z�
 hodnotami: viditelnost (`visibility`), vítr (`wind`, rychlost v m/s), teplota (`temperature`), srážky
 (`precipitationDetail`), vlhkost (`humidity`)
 |`WeatherRelatedRoadConditions` |stav vozovky vlivem počasí (`weatherRelatedRoadConditionType`, např.
-náledí, sníh, kluzká vozovka – hodnota `slippery`)
-|`NonWeatherRelatedRoadConditions` |stav vozovky nesouvisející s počasím (`nonWeatherRelatedRoadConditionType`)
-|`Conditions` |obecné podmínky jízdy (`drivingConditionType`)
+náledí, sníh, voda na vozovce – `surfaceWater`, kluzká vozovka – `slippery`)
 |===
 
 .Hustá mlha s viditelností 30 m (vzorek `visibility.xml`)
@@ -126,15 +117,10 @@ include::{samplesdir}/visibility.xml[tag=conditions,indent=0]
 [[platnost]]
 === Časová platnost
 
-Časová platnost se uvádí pro každý záznam situace samostatně ve struktuře `validity`. Používá se výhradně
-`validityStatus` = `definedByValidityTimeSpec` a interval `validityTimeSpecification` (třída
-`OverallPeriod`) s počátkem `overallStartTime` a koncem `overallEndTime`.
-
-Platí-li událost jen v určité části dne (např. práce jen přes den, v noci nebo mimo dopravní špičku),
-doplňuje se interval elementem `validPeriod`: název období `periodName` a denní časový úsek
-`recurringTimePeriodOfDay` (`startTimeOfPeriod`, `endTimeOfPeriod`). Jiné opakované intervaly
-(dny v týdnu, data) se nepoužívají; opakovaná událost se jinak popíše více po sobě jdoucími záznamy.
-Interval platnosti může ležet v minulosti, přítomnosti i budoucnosti.
+Časovou platnost záznamu udává struktura `validity`: `validityStatus` = `definedByValidityTimeSpec`
+a interval `validityTimeSpecification` s počátkem `overallStartTime` a koncem `overallEndTime`.
+Platnost zjištěného jevu je stanovena na *20 minut*. Trvá-li jev déle, záznam se průběžně aktualizuje:
+vzniká jeho nová verze s novým intervalem platnosti, zatímco `situationRecordCreationTime` zůstává.
 
 .Časová platnost záznamu (vzorek `visibility.xml`)
 [source,xml]
@@ -145,10 +131,10 @@ include::{samplesdir}/visibility.xml[tag=validity,indent=0]
 [[polohy]]
 == Popisování poloh
 
-Formát popisuje polohy výhradně *odkazem* do sady předem definovaných poloh, kterou publikuje formát
-`cz-ndic_d2-pls` (publikace `PredefinedLocationsPublication` <<EN16157-3>>). Poloha tedy není popsána
-přímo ve zprávě; odběratel ji dohledá v publikaci předdefinovaných poloh související s tímto zdrojem
-podle typu cíle, identifikátoru a verze.
+Poloha události je vždy předem známý úsek silnice přiřazený meteohlásce, zahrnující oba směry jízdy.
+Úseky publikuje formát `cz-ndic_d2-pls` jako sadu předdefinovaných poloh (distribuce
+`x-source:cz-ndic_d2-pls-weather-pull-v2`); zpráva na ně jen odkazuje a odběratel polohu dohledá podle
+identifikátoru a verze.
 
 Odkaz se uvádí v elementu `locationReference` typu `loc:LocationByReference` s vnořeným
 `predefinedLocationReference`; atribut `targetClass` má pevnou hodnotu `loc:PredefinedLocation`.
@@ -164,7 +150,7 @@ include::{samplesdir}/visibility.xml[tag=loc-ref,indent=0]
 
 Metody popisu samotných předdefinovaných poloh popisuje dokumentace formátu `cz-ndic_d2-pls`.
 
-Platí-li událost pro více míst najednou, může odkazovat na *skupinu* předdefinovaných poloh: element
+Týká-li se jev více úseků najednou, může záznam odkazovat na *skupinu* předdefinovaných poloh: element
 `locationReference` je pak typu `loc:LocationGroupByReference` s vnořeným
 `predefinedLocationGroupReference` a `targetClass` = `loc:PredefinedLocationGroup`.
 

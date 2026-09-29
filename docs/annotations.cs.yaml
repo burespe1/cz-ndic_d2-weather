@@ -12,4 +12,7 @@
 #
 # _enum:                # překlady hodnot výčtů pro celý formát (přepisují sdílený slovník kitu)
 #   ProbabilityEnum.certain: jistá
-{}
+
+Situation:
+  overallSeverity:
+    ndic: "Zatím se neuvádí. Prvek je v profilu ponechán pro případné rozlišení závažnosti výstrah z meteohlásek (úrovně low, medium, high); odběratel s ním má počítat jako s nepovinným."
