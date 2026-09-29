@@ -1,0 +1,33 @@
+= cz-ndic_d2-weather
+:toc: macro
+
+DATEX II Situation Publication – Počasí a sjízdnost. Nebezpečné jevy počasí a sjízdnost vztažené k meteostanicím na síti ŘSD.
+
+Repozitář formátu Národního dopravního informačního centra (NDIC) – specifikace datového profilu
+DATEX II 3.7 a jeho dokumentace. Aktuální verze formátu: *2.0*.
+
+toc::[]
+
+== Obsah
+
+[horizontal]
+`FORMAT.yaml`:: metadata formátu (verze MAJOR.MINOR, distribuce)
+`schema/`:: závazné XML schéma (XSD)
+`sel/`:: výběr profilu z modelu DATEX II (webtool DATEX II)
+`samples/`:: vzorky dat, validní vůči schématu
+`CHANGELOG.adoc`:: změny formátu
+`docs/`:: zdrojové texty dokumentace (AsciiDoc)
+
+== Vydání
+
+Vydání jsou v sekci *Releases* tohoto repozitáře:
+
+[cols="1,3"]
+|===
+|tag |obsah
+
+|`vX.Y` |balíček specifikace `cz-ndic_d2-weather-vX.Y.zip` (FORMAT.yaml, schéma, výběr profilu, vzorky, doplňkové materiály, CHANGELOG)
+|`docs-vX.Y.N` |dokumentace formátu (PDF, HTML); `X.Y` = verze formátu, `N` = revize textu dokumentace
+|===
+
+Registr zdrojů dat a distribucí: https://registr.dopravniinfo.cz/[Národní přístupový bod].

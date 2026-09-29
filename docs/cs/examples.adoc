@@ -1,0 +1,44 @@
+== Příklady zpráv
+
+Vzorky jsou součástí balíčku specifikace `{schema-uri}.zip` (adresář `samples`). Všechny jsou validní vůči
+schématu DATEX II 3.7 a odpovídají výběru profilu (`.sel`).
+
+=== visibility.xml – hustá mlha
+
+Publikace obsahuje jednu zprávu o husté mlze s nejmenší viditelností 30 metrů.
+
+[source,xml]
+----
+include::{samplesdir}/visibility.xml[tags=**]
+----
+
+Obálka a hlavička::
+Kořen `d2:payload` typu `sit:SituationPublication` s atributy `profileName` a `profileVersion`,
+`publicationTime` a `publicationCreator`. Odkaz na zdroj dat (`feedType`) je
+`x-source:cz-ndic_d2-weather-v2`.
+
+Situace::
+Situace obsahuje jeden záznam typu `PoorEnvironmentConditions` ve verzi 5: hustá mlha (`denseFog`)
+s nejmenší viditelností 30 m (`minimumVisibilityDistance`). Hodnota `certain` značí nastalou událost,
+`safetyRelatedMessage` ji označuje jako informaci SRTI.
+
+Platnost::
+Záznam platí 20 minut – od 4:26:50 do 4:46:50 (`overallStartTime`, `overallEndTime`).
+
+Poloha::
+Poloha je odkazem na předdefinovanou polohu (`LocationByReference`, `targetClass` =
+`loc:PredefinedLocation`) s identifikátorem `dde51831-2f37-4f07-8429-286a9d08106c` ve verzi 1; popis
+polohy obsahuje publikace formátu `cz-ndic_d2-pls`.
+
+Další obsah::
+`source` uvádí původce informace (správci meteohlásek), `generalPublicComment` volný popis.
+
+=== visibility-loc_group.xml – hustá mlha pro skupinu míst
+
+Stejná zpráva, jejíž poloha odkazuje na skupinu předdefinovaných poloh (`LocationGroupByReference`,
+`targetClass` = `loc:PredefinedLocationGroup`).
+
+[source,xml]
+----
+include::{samplesdir}/visibility-loc_group.xml[tags=**]
+----

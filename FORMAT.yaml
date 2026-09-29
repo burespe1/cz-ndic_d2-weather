@@ -1,0 +1,38 @@
+# Metadata formátu – součást vydání specifikace (tag v2.0).
+uri: cz-ndic_d2-weather
+version: '2.0'
+name:
+  cs: DATEX II Situation Publication – Počasí a sjízdnost
+  en: DATEX II Situation Publication – Weather and road conditions
+description:
+  cs: Nebezpečné jevy počasí a sjízdnost vztažené k meteostanicím na síti ŘSD.
+  en: Hazardous weather and road conditions related to weather stations on the RSD network.
+publisher:
+  cs: Národní dopravní informační centrum
+  en: National Traffic Information Centre
+model:
+  name: DATEX II
+  version: '3.7'
+  publication: SituationPublication
+  extensions: []
+schema:
+  dir: schema
+  entry: DATEXII_3_D2Payload.xsd
+selection: sel/cz-ndic_d2-weather.sel
+samples: samples
+ndic:
+  action: upgrade
+  previous: cz-ndic_d2-weather-v1.2 (DATEX II 2.3)
+  source: NDIC – hlášení o počasí a sjízdnosti (meteohlásky)
+  distributions:
+  - x-source:cz-ndic_d2-weather-v2 (push, delta)
+  legislation:
+  - SRTI
+  profiles:
+  - RSP Road Weather Information
+  profileName: cz-ndic_d2-weather
+  profileVersion: '2.0'
+maintainer:
+  name: Petr Bureš
+  company: TamTam Research s.r.o.
+  url: https://www.tamtamresearch.com
