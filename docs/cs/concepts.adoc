@@ -8,13 +8,12 @@ Každá meteohláska má přiřazen předem známý úsek silnice, který zahrnu
 se proto ve zprávě neuvádí popisem, ale jen odkazem na tento úsek (viz <<polohy>>).
 
 Formát vychází z DATEX II publikace `SituationPublication` <<EN16157-3>> a využívá jen malou podmnožinu
-jejích struktur. Oproti verzi 1.2 (DATEX II 2.3) je převeden na model DATEX II 3.7.
+jejích struktur. Používá model DATEX II 3.7.
 
 [[obalka]]
 === Obálka a hlavička publikace
 
-Každá zpráva je dokument DATEX II 3 s kořenovým elementem `d2:payload`. Obálky `d2LogicalModel`
-a `exchange` z verze 2 se již nepoužívají. Atribut `xsi:type` kořenového elementu určuje typ
+Každá zpráva je dokument DATEX II 3 s kořenovým elementem `d2:payload`. Atribut `xsi:type` kořenového elementu určuje typ
 publikace (zde `sit:SituationPublication`), atribut `modelBaseVersion="3"` verzi modelu a atribut `lang` výchozí jazyk
 textů.
 
@@ -88,8 +87,7 @@ include::{samplesdir}/visibility.xml[tag=record-meta,indent=0]
 * `probabilityOfOccurrence` – `certain` pro naměřený jev (např. hustá mlha), `riskOf` pro jev, který
   hrozí (např. nebezpečí akvaplaningu – vzorek `aquaplaning.xml`).
 * `safetyRelatedMessage` – `true` označuje informaci související s bezpečností silničního provozu podle
-  nařízení v přenesené pravomoci (EU) č. 886/2013 (SRTI). Ve verzi 3 je součástí modelu, národní
-  rozšíření se již nepoužívá.
+  nařízení v přenesené pravomoci (EU) č. 886/2013 (SRTI).
 * `source` – původce informace (`sourceIdentification`, `sourceName`), tj. správce meteohlásek.
 * `generalPublicComment` – slovní popis jevu a místa, česky.
 

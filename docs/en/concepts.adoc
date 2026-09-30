@@ -9,14 +9,12 @@ Each road weather station is assigned a known road section covering both directi
 location of an event is therefore not described in the message; it is only referenced (see <<polohy>>).
 
 The format is based on the DATEX II publication `SituationPublication` <<EN16157-3>> and uses only a small
-subset of its structures. Compared to version 1.2 (DATEX II 2.3) it has been migrated to the DATEX II 3.7
-model.
+subset of its structures. It uses the DATEX II 3.7 model.
 
 [[obalka]]
 === Envelope and publication header
 
-Each message is a DATEX II 3 document with the root element `d2:payload`. The `d2LogicalModel` and
-`exchange` envelopes of version 2 are no longer used. The `xsi:type` attribute of the root element
+Each message is a DATEX II 3 document with the root element `d2:payload`. The `xsi:type` attribute of the root element
 specifies the publication type (here `sit:SituationPublication`), the `modelBaseVersion="3"` attribute
 the model version and the `lang` attribute the default language of texts.
 
@@ -92,8 +90,7 @@ include::{samplesdir}/visibility.xml[tag=record-meta,indent=0]
 * `probabilityOfOccurrence` – `certain` for a measured phenomenon (e.g. dense fog), `riskOf` for an
   imminent phenomenon (e.g. risk of aquaplaning – sample `aquaplaning.xml`).
 * `safetyRelatedMessage` – `true` marks safety-related traffic information according to Commission
-  Delegated Regulation (EU) No 886/2013 (SRTI). In version 3 it is part of the model; the national
-  extension is no longer used.
+  Delegated Regulation (EU) No 886/2013 (SRTI).
 * `source` – originator of the information (`sourceIdentification`, `sourceName`), i.e. the operator of
   the road weather stations.
 * `generalPublicComment` – textual description of the phenomenon and place, in Czech.
