@@ -1,7 +1,6 @@
 == Message examples
 
-The samples are part of the specification package `{schema-uri}.zip` (directory `samples`). All of them
-are valid against the DATEX II 3.7 schema and conform to the profile selection (`.sel`).
+The samples are part of the specification package `{schema-uri}.zip` (directory `samples`).
 
 === visibility.xml – dense fog
 
@@ -14,8 +13,7 @@ include::{samplesdir}/visibility.xml[tags=**]
 
 Envelope and header::
 Root `d2:payload` of type `sit:SituationPublication` with the `profileName` and `profileVersion`
-attributes, `publicationTime` and `publicationCreator`. The data source reference (`feedType`) is
-`x-source:cz-ndic_d2-weather-v2`.
+attributes, `publicationTime` and `publicationCreator`. `feedType` refers to the data source.
 
 Situation::
 The situation contains one record of type `PoorEnvironmentConditions` in version 5: dense fog

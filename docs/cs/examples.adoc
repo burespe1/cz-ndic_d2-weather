@@ -1,7 +1,6 @@
 == Příklady zpráv
 
-Vzorky jsou součástí balíčku specifikace `{schema-uri}.zip` (adresář `samples`). Všechny jsou validní vůči
-schématu DATEX II 3.7 a odpovídají výběru profilu (`.sel`).
+Vzorky jsou součástí balíčku specifikace `{schema-uri}.zip` (adresář `samples`).
 
 === visibility.xml – hustá mlha
 
@@ -14,8 +13,7 @@ include::{samplesdir}/visibility.xml[tags=**]
 
 Obálka a hlavička::
 Kořen `d2:payload` typu `sit:SituationPublication` s atributy `profileName` a `profileVersion`,
-`publicationTime` a `publicationCreator`. Odkaz na zdroj dat (`feedType`) je
-`x-source:cz-ndic_d2-weather-v2`.
+`publicationTime` a `publicationCreator`. `feedType` odkazuje na zdroj dat.
 
 Situace::
 Situace obsahuje jeden záznam typu `PoorEnvironmentConditions` ve verzi 5: hustá mlha (`denseFog`)

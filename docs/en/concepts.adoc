@@ -26,13 +26,11 @@ The format the message conforms to is identified solely by attributes of the roo
 
 The publication header contains:
 
-* `feedType` – reference to the *data source* (distribution) in the register of the national access
-  point <<nap>>: `x-source:cz-ndic_d2-weather-v2`. The distribution version number (`-v2`) changes
-  independently of the format version; the format is identified by the `profileName` and
-  `profileVersion` attributes. The `feedDescription` element is not used.
+* `feedType` – identifier of the data source (distribution) in the register of the national access point
+  <<nap>>. The source refers to the format in which it provides the data; the format of the message is
+  identified by the `profileName` and `profileVersion` attributes. The `feedDescription` element is not used.
 * `publicationTime` – time the publication content was created. If the content has not changed since
-  the previous publication, the original time is kept (as are the HTTP headers `Last-Modified` and
-  `ETag`); a new time is set only when the content changes.
+  the previous publication, the original time is kept; a new time is set only when the content changes.
 * `publicationCreator` – publication provider: country code in lower case (`cz`) and provider
   abbreviation (`nationalIdentifier`).
 * `headerInformation` – handling of the information; NDIC always sets `confidentiality` =
@@ -137,7 +135,7 @@ include::{samplesdir}/visibility.xml[tag=validity,indent=0]
 
 The location of an event is always the known road section assigned to the road weather station, covering
 both directions of travel. The sections are published by the `cz-ndic_d2-pls` format as a set of
-predefined locations (distribution `x-source:cz-ndic_d2-pls-weather-pull-v2`); the message only
+predefined locations; the message only
 references them and the consumer looks the location up by identifier and version.
 
 The reference is given in the `locationReference` element of type `loc:LocationByReference` with the

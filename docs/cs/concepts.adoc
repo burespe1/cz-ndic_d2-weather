@@ -25,11 +25,11 @@ Formát, podle kterého je zpráva sestavena, identifikují výhradně atributy 
 
 Hlavička publikace obsahuje:
 
-* `feedType` – odkaz na *zdroj dat* (distribuci) v registru národního přístupového bodu <<nap>>:
-  `x-source:cz-ndic_d2-weather-v2`. Číslo verze distribuce (`-v2`) se mění nezávisle na verzi formátu;
-  formát určují atributy `profileName` a `profileVersion`. Element `feedDescription` se nepoužívá.
+* `feedType` – identifikátor zdroje dat (distribuce) v registru národního přístupového bodu <<nap>>.
+  Zdroj odkazuje na formát, ve kterém data poskytuje; formát zprávy určují atributy `profileName`
+  a `profileVersion`. Element `feedDescription` se nepoužívá.
 * `publicationTime` – čas vytvoření obsahu publikace. Pokud se obsah od předchozí publikace nezměnil,
-  zůstává čas původní (stejně jako hlavičky HTTP `Last-Modified` a `ETag`); nový čas vzniká jen se
+  zůstává čas původní; nový čas vzniká jen se
   změnou obsahu.
 * `publicationCreator` – poskytovatel publikace: kód země malými písmeny (`cz`) a zkratka
   poskytovatele (`nationalIdentifier`).
@@ -130,8 +130,7 @@ include::{samplesdir}/visibility.xml[tag=validity,indent=0]
 == Popisování poloh
 
 Poloha události je vždy předem známý úsek silnice přiřazený meteohlásce, zahrnující oba směry jízdy.
-Úseky publikuje formát `cz-ndic_d2-pls` jako sadu předdefinovaných poloh (distribuce
-`x-source:cz-ndic_d2-pls-weather-pull-v2`); zpráva na ně jen odkazuje a odběratel polohu dohledá podle
+Úseky publikuje formát `cz-ndic_d2-pls` jako sadu předdefinovaných poloh; zpráva na ně jen odkazuje a odběratel polohu dohledá podle
 identifikátoru a verze.
 
 Odkaz se uvádí v elementu `locationReference` typu `loc:LocationByReference` s vnořeným

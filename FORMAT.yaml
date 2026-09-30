@@ -23,11 +23,6 @@ samples: samples
 ndic:
   action: upgrade
   previous: cz-ndic_d2-weather-v1.2 (DATEX II 2.3)
-  source: NDIC – hlášení o počasí a sjízdnosti (meteohlásky)
-  distributions:
-  - x-source:cz-ndic_d2-weather-v2 (push, delta)
-  legislation:
-  - SRTI
   profiles:
   - RSP Road Weather Information
   profileName: cz-ndic_d2-weather
