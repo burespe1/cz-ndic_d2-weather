@@ -2,44 +2,52 @@
 
 The samples are part of the specification package `{schema-uri}.zip` (directory `samples`).
 
-=== visibility.xml – dense fog
+=== strong-wind.xml – strong wind
 
-The publication contains one message about dense fog with a minimum visibility of 30 metres.
+A warning of the road weather station Cínovec 2 of strong wind (snapshot of 30{nbsp}September 2026).
+
+[source,xml]
+----
+include::{samplesdir}/strong-wind.xml[tags=**]
+----
+
+Envelope and header::
+Root `d2:payload` of type `sit:SituationPublication` with the attributes `profileName` and `profileVersion`,
+`publicationTime` and `publicationCreator`. `feedType` refers to the data source.
+
+Situation::
+The situation contains one record of type `PoorEnvironmentConditions` in version 4: strong wind (`strongWinds`). The
+record was created at 0:07:31 and renewed three times until 0:27:31; the source is the road weather stations
+(`ITSMETEO`).
+
+Validity::
+The current version is valid for 20 minutes – from 0:21 to 0:41 (`overallStartTime`, `overallEndTime`).
+
+Location::
+A reference to the predefined section of the road weather station Cínovec 2 (`LocationByReference`,
+`targetClass` = `loc:PredefinedLocation`) with the identifier `88410412-1bf1-4ace-8e84-66cb60d127db` in version 260601; the section
+is in the sample `predefined_location_set-weather.xml` of the format `cz-ndic_d2-pls`.
+
+=== strong-wind-loc_group.xml – strong wind for a group of places
+
+The same message whose location refers to a group of predefined locations (`LocationGroupByReference`,
+`targetClass` = `loc:PredefinedLocationGroup`). The referenced group is the sample
+`predefined_location_loc_group.xml` of the format `cz-ndic_d2-pls`. A reference to a group does not yet occur in
+production data; the sample only shows how it is written.
+
+[source,xml]
+----
+include::{samplesdir}/strong-wind-loc_group.xml[tags=**]
+----
+
+=== visibility.xml – dense fog with a measured value
+
+An older message (2017) about dense fog with a minimum visibility of 30 metres. It shows how a measured value is
+written (`minimumVisibilityDistance`); current road weather station warnings give only the kind of phenomenon.
 
 [source,xml]
 ----
 include::{samplesdir}/visibility.xml[tags=**]
-----
-
-Envelope and header::
-Root `d2:payload` of type `sit:SituationPublication` with the `profileName` and `profileVersion`
-attributes, `publicationTime` and `publicationCreator`. `feedType` refers to the data source.
-
-Situation::
-The situation contains one record of type `PoorEnvironmentConditions` in version 5: dense fog
-(`denseFog`) with a minimum visibility of 30 m (`minimumVisibilityDistance`). The value `certain` marks
-a measured phenomenon, `safetyRelatedMessage` marks it as SRTI information.
-
-Validity::
-The record is valid for 20 minutes – from 4:26:50 to 4:46:50 (`overallStartTime`, `overallEndTime`).
-
-Location::
-The location is a reference to a predefined location (`LocationByReference`, `targetClass` =
-`loc:PredefinedLocation`) with identifier `dde51831-2f37-4f07-8429-286a9d08106c` in version 1; the
-location description is contained in the publication of the `cz-ndic_d2-pls` format.
-
-Other content::
-`source` gives the originator of the information (operators of the road weather stations),
-`generalPublicComment` a free-text description.
-
-=== visibility-loc_group.xml – dense fog for a group of places
-
-The same message, with the location referencing a group of predefined locations
-(`LocationGroupByReference`, `targetClass` = `loc:PredefinedLocationGroup`).
-
-[source,xml]
-----
-include::{samplesdir}/visibility-loc_group.xml[tags=**]
 ----
 
 === aquaplaning.xml – risk of aquaplaning

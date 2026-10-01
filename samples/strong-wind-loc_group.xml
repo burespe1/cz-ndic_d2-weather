@@ -1,56 +1,54 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <d2:payload xmlns:d2="http://datex2.eu/schema/3/d2Payload" xmlns:com="http://datex2.eu/schema/3/common" xmlns:sit="http://datex2.eu/schema/3/situation" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="sit:SituationPublication" lang="cs" modelBaseVersion="3" profileName="cz-ndic_d2-weather" profileVersion="2.0">
+  <!-- tag::header[] -->
   <com:feedType>x-source:cz-ndic_d2-weather-v2</com:feedType>
-  <com:publicationTime>2017-07-15T04:27:59+02:00</com:publicationTime>
+  <com:publicationTime>2026-09-30T00:32:07+02:00</com:publicationTime>
   <com:publicationCreator>
     <com:country>cz</com:country>
     <com:nationalIdentifier>NDIC</com:nationalIdentifier>
   </com:publicationCreator>
-  <sit:situation id="MeteoService15.1">
-    <sit:situationVersionTime>2017-07-15T04:27:21+02:00</sit:situationVersionTime>
+  <!-- end::header[] -->
+  <sit:situation id="af2d74d7-ab61-454f-ae80-0042d09d7210">
+    <!-- tag::situation-head[] -->
+    <sit:situationVersionTime>2026-09-30T00:27:31+02:00</sit:situationVersionTime>
     <sit:headerInformation>
       <com:confidentiality>noRestriction</com:confidentiality>
       <com:informationStatus>real</com:informationStatus>
     </sit:headerInformation>
-    <sit:situationRecord xsi:type="sit:PoorEnvironmentConditions" id="MeteoService15.1_PoorEnvironmentConditions" version="5">
-      <sit:situationRecordCreationTime>2017-07-15T04:25:59+02:00</sit:situationRecordCreationTime>
-      <sit:situationRecordVersionTime>2017-07-15T04:27:21+02:00</sit:situationRecordVersionTime>
+    <!-- end::situation-head[] -->
+    <sit:situationRecord xsi:type="sit:PoorEnvironmentConditions" id="af2d74d7-ab61-454f-ae80-0042d09d7210_PoorEnvironmentConditions" version="4">
+      <!-- tag::record-meta[] -->
+      <sit:situationRecordCreationTime>2026-09-30T00:07:31+02:00</sit:situationRecordCreationTime>
+      <sit:situationRecordVersionTime>2026-09-30T00:27:31+02:00</sit:situationRecordVersionTime>
       <sit:probabilityOfOccurrence>certain</sit:probabilityOfOccurrence>
-      <sit:safetyRelatedMessage>true</sit:safetyRelatedMessage>
       <sit:source>
-        <com:sourceIdentification>ITSMTNDIC</com:sourceIdentification>
-        <com:sourceName>
-          <com:values>
-            <com:value lang="cs">Správci meteohlásek DI</com:value>
-          </com:values>
-        </com:sourceName>
+        <com:sourceIdentification>ITSMETEO</com:sourceIdentification>
       </sit:source>
+      <!-- end::record-meta[] -->
+      <!-- tag::validity[] -->
       <sit:validity>
         <com:validityStatus>definedByValidityTimeSpec</com:validityStatus>
         <com:validityTimeSpecification>
-          <com:overallStartTime>2017-07-15T04:26:50+02:00</com:overallStartTime>
-          <com:overallEndTime>2017-07-15T04:46:50+02:00</com:overallEndTime>
+          <com:overallStartTime>2026-09-30T00:21:00+02:00</com:overallStartTime>
+          <com:overallEndTime>2026-09-30T00:41:00+02:00</com:overallEndTime>
         </com:validityTimeSpecification>
       </sit:validity>
+      <!-- end::validity[] -->
       <sit:generalPublicComment>
         <sit:comment>
           <com:values>
-            <com:value lang="cs">Hustá mlha, viditelnost menší než 30 m,
-              Vysocanská</com:value>
+            <com:value lang="cs">Povětrnostní podmínky: silný vítr, Cínovec 2</com:value>
           </com:values>
         </sit:comment>
       </sit:generalPublicComment>
       <!-- tag::loc-group[] -->
       <sit:locationReference xsi:type="loc:LocationGroupByReference">
-        <loc:predefinedLocationGroupReference id="73D74C70-BFA8-408F-86CD-49B3689D9F5D" version="1" targetClass="loc:PredefinedLocationGroup"/>
+        <loc:predefinedLocationGroupReference id="de08487e-e29a-5a4e-9def-7e7229fb2dd0" version="260601" targetClass="loc:PredefinedLocationGroup"/>
       </sit:locationReference>
       <!-- end::loc-group[] -->
-      <sit:poorEnvironmentType>denseFog</sit:poorEnvironmentType>
-      <sit:visibility>
-        <com:minimumVisibilityDistance>
-          <com:integerMetreDistance>30</com:integerMetreDistance>
-        </com:minimumVisibilityDistance>
-      </sit:visibility>
+      <!-- tag::conditions[] -->
+      <sit:poorEnvironmentType>strongWinds</sit:poorEnvironmentType>
+      <!-- end::conditions[] -->
     </sit:situationRecord>
   </sit:situation>
 </d2:payload>

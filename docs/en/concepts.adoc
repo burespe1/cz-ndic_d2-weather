@@ -38,11 +38,11 @@ The publication header contains:
 
 All times in the message include the time zone.
 
-.Root element and publication header (sample `visibility.xml`)
+.Root element and publication header (sample `strong-wind.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility.xml[lines=2]
-include::{samplesdir}/visibility.xml[tag=header,indent=2]
+include::{samplesdir}/strong-wind.xml[lines=2]
+include::{samplesdir}/strong-wind.xml[tag=header,indent=2]
   ...
 ----
 
@@ -55,10 +55,10 @@ its record increases with each update (<<platnost>>). When the phenomenon ends, 
 occurrence at the same place is a new situation with a new identifier. The situation contains the time of
 its last change `situationVersionTime`, the `headerInformation` header and one `situationRecord`.
 
-.Situation (sample `visibility.xml`)
+.Situation (sample `strong-wind.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility.xml[tag=situation-head,indent=0]
+include::{samplesdir}/strong-wind.xml[tag=situation-head,indent=0]
   ...
 </sit:situation>
 ----
@@ -79,10 +79,10 @@ identifier is derived from the situation identifier and the record type.
 
 ==== Common record content
 
-.Situation record – version, probability and source (sample `visibility.xml`)
+.Situation record – version, probability and source (sample `strong-wind.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility.xml[tag=record-meta,indent=0]
+include::{samplesdir}/strong-wind.xml[tag=record-meta,indent=0]
   ...
 </sit:situationRecord>
 ----
@@ -126,10 +126,10 @@ and ending at `overallEndTime`. The validity of a detected phenomenon is set to 
 phenomenon lasts longer, the record is updated continuously: a new version with a new validity interval
 is created, while `situationRecordCreationTime` stays unchanged.
 
-.Record validity (sample `visibility.xml`)
+.Record validity (sample `strong-wind.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility.xml[tag=validity,indent=0]
+include::{samplesdir}/strong-wind.xml[tag=validity,indent=0]
 ----
 
 [[polohy]]
@@ -148,10 +148,10 @@ The `@id` and `@version` attributes of the reference correspond to the identifie
 predefined location. The identifier does not change when the location description changes; a change of
 geometry creates a new version.
 
-.Reference to a predefined location (sample `visibility.xml`)
+.Reference to a predefined location (sample `strong-wind.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility.xml[tag=loc-ref,indent=0]
+include::{samplesdir}/strong-wind.xml[tag=loc-ref,indent=0]
 ----
 
 The description of the predefined locations themselves is covered by the documentation of the
@@ -161,8 +161,8 @@ If the phenomenon concerns several sections at once, the record may reference a 
 locations: the `locationReference` element is then of type `loc:LocationGroupByReference` with the nested
 `predefinedLocationGroupReference` and `targetClass` = `loc:PredefinedLocationGroup`.
 
-.Reference to a group of predefined locations (sample `visibility-loc_group.xml`)
+.Reference to a group of predefined locations (sample `strong-wind-loc_group.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility-loc_group.xml[tag=loc-group,indent=0]
+include::{samplesdir}/strong-wind-loc_group.xml[tag=loc-group,indent=0]
 ----

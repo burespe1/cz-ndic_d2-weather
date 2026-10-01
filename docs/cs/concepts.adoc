@@ -38,11 +38,11 @@ Hlavička publikace obsahuje:
 
 Všechny časové údaje ve zprávě se uvádějí včetně časové zóny.
 
-.Kořenový element a hlavička publikace (vzorek `visibility.xml`)
+.Kořenový element a hlavička publikace (vzorek `strong-wind.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility.xml[lines=2]
-include::{samplesdir}/visibility.xml[tag=header,indent=2]
+include::{samplesdir}/strong-wind.xml[lines=2]
+include::{samplesdir}/strong-wind.xml[tag=header,indent=2]
   ...
 ----
 
@@ -55,10 +55,10 @@ jejího záznamu (<<platnost>>). Skončí-li jev, končí i situace; jeho nový 
 s novým identifikátorem. Situace obsahuje čas své poslední změny `situationVersionTime`, hlavičku
 `headerInformation` a jeden záznam `situationRecord`.
 
-.Situace (vzorek `visibility.xml`)
+.Situace (vzorek `strong-wind.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility.xml[tag=situation-head,indent=0]
+include::{samplesdir}/strong-wind.xml[tag=situation-head,indent=0]
   ...
 </sit:situation>
 ----
@@ -78,10 +78,10 @@ identifikátoru situace a typu záznamu.
 
 ==== Společný obsah záznamu
 
-.Záznam situace – verze, pravděpodobnost a zdroj (vzorek `visibility.xml`)
+.Záznam situace – verze, pravděpodobnost a zdroj (vzorek `strong-wind.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility.xml[tag=record-meta,indent=0]
+include::{samplesdir}/strong-wind.xml[tag=record-meta,indent=0]
   ...
 </sit:situationRecord>
 ----
@@ -122,10 +122,10 @@ a interval `validityTimeSpecification` s počátkem `overallStartTime` a koncem 
 Platnost zjištěného jevu je stanovena na *20 minut*. Trvá-li jev déle, záznam se průběžně aktualizuje:
 vzniká jeho nová verze s novým intervalem platnosti, zatímco `situationRecordCreationTime` zůstává.
 
-.Časová platnost záznamu (vzorek `visibility.xml`)
+.Časová platnost záznamu (vzorek `strong-wind.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility.xml[tag=validity,indent=0]
+include::{samplesdir}/strong-wind.xml[tag=validity,indent=0]
 ----
 
 [[polohy]]
@@ -141,10 +141,10 @@ Odkaz se uvádí v elementu `locationReference` typu `loc:LocationByReference` s
 Atributy `@id` a `@version` odkazu odpovídají identifikátoru a verzi předdefinované polohy. Identifikátor
 se při změně popisu polohy nemění; změna geometrie vytváří novou verzi.
 
-.Odkaz na předdefinovanou polohu (vzorek `visibility.xml`)
+.Odkaz na předdefinovanou polohu (vzorek `strong-wind.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility.xml[tag=loc-ref,indent=0]
+include::{samplesdir}/strong-wind.xml[tag=loc-ref,indent=0]
 ----
 
 Metody popisu samotných předdefinovaných poloh popisuje dokumentace formátu `cz-ndic_d2-pls`.
@@ -153,8 +153,8 @@ Týká-li se jev více úseků najednou, může záznam odkazovat na *skupinu* p
 `locationReference` je pak typu `loc:LocationGroupByReference` s vnořeným
 `predefinedLocationGroupReference` a `targetClass` = `loc:PredefinedLocationGroup`.
 
-.Odkaz na skupinu předdefinovaných poloh (vzorek `visibility-loc_group.xml`)
+.Odkaz na skupinu předdefinovaných poloh (vzorek `strong-wind-loc_group.xml`)
 [source,xml]
 ----
-include::{samplesdir}/visibility-loc_group.xml[tag=loc-group,indent=0]
+include::{samplesdir}/strong-wind-loc_group.xml[tag=loc-group,indent=0]
 ----
