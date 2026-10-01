@@ -11,31 +11,35 @@ location of an event is therefore not described in the message; it is only refer
 The format is derived from the format `cz-ndic_d2-common`: it takes over its records on weather conditions
 and narrows them to road weather station warnings. Unlike common, it describes the location only by a
 reference to a predefined section and allows a measured humidity value. The format is based on the
-DATEX II publication `SituationPublication` <<EN16157-3>> and uses the DATEX II 3.7 model.
+DATEX II publication `sit:SituationPublication` <<EN16157-3>> and uses the DATEX II 3.7 model.
 
 [[obalka]]
 === Envelope and publication header
 
 Each message is a DATEX II 3 document with the root element `d2:payload`. The `xsi:type` attribute of the root element
 specifies the publication type (here `sit:SituationPublication`), the `modelBaseVersion="3"` attribute
-the model version and the `lang` attribute the default language of texts.
+the model version and the `@lang` attribute the default language of texts.
 
 The format the message conforms to is identified solely by attributes of the root element:
 
 [horizontal]
-`profileName`:: format identifier without version (`cz-ndic_d2-weather`),
-`profileVersion`:: format version (`2.0`).
+`@profileName`:: format identifier without version (`cz-ndic_d2-weather`),
+`@profileVersion`:: format version (`2.0`).
 
 The publication header contains:
 
-* `feedType` – identifier of the data source the message comes from. The format of the message is
-  identified by the `profileName` and `profileVersion` attributes, not by `feedType`. The `feedDescription` element is not used.
-* `publicationTime` – time the publication content was created. If the content has not changed since
-  the previous publication, the original time is kept; a new time is set only when the content changes.
-* `publicationCreator` – publication provider: country code in lower case (`cz`) and provider
-  abbreviation (`nationalIdentifier`).
-* `headerInformation` – handling of the information; NDIC always sets `confidentiality` =
-  `noRestriction` and `informationStatus` = `real`.
+* `feedType` – identifier of the data source the message comes from:
+** the format of the message is identified by the `@profileName` and `@profileVersion` attributes, not by
+   `feedType`,
+** the `feedDescription` element is not used.
+* `publicationTime` – time the publication content was created; if the content has not changed since the
+  previous publication, the original time is kept; a new time is set only when the content changes.
+* `publicationCreator` – publication provider:
+** country code in lower case (`cz`),
+** provider abbreviation (`nationalIdentifier`).
+* `headerInformation` – handling of the information; NDIC always sets:
+** `confidentiality` = `noRestriction`,
+** `informationStatus` = `real`.
 
 All times in the message include the time zone.
 
@@ -88,8 +92,9 @@ include::{samplesdir}/strong-wind.xml[tag=record-meta,indent=0]
 </sit:situationRecord>
 ----
 
-* `probabilityOfOccurrence` – `certain` for a measured phenomenon (e.g. dense fog), `riskOf` for an
-  imminent phenomenon (e.g. risk of aquaplaning – sample `aquaplaning.xml`).
+* `probabilityOfOccurrence`:
+** `certain` – a measured phenomenon (e.g. dense fog),
+** `riskOf` – an imminent phenomenon (e.g. risk of aquaplaning – sample `aquaplaning.xml`).
 * `safetyRelatedMessage` – `true` marks safety-related traffic information according to Commission
   Delegated Regulation (EU) No 886/2013 (SRTI).
 * `source` – originator of the information (`sourceIdentification`, `sourceName`), i.e. the operator of
@@ -100,15 +105,15 @@ include::{samplesdir}/strong-wind.xml[tag=record-meta,indent=0]
 === Record types and description of conditions
 
 The record type corresponds to the detected phenomenon. The format uses these types (subclasses of
-`Conditions`):
+`sit:Conditions`):
 
 [cols="2,4",options="header"]
 |===
 |Record type |Content
-|`PoorEnvironmentConditions` |poor environment conditions (`poorEnvironmentType`), with measured values:
+|`sit:PoorEnvironmentConditions` |poor environment conditions (`poorEnvironmentType`), with measured values:
 visibility (`visibility`), wind (`wind`, speed in m/s), temperature (`temperature`), precipitation
 (`precipitationDetail`), humidity (`humidity`)
-|`WeatherRelatedRoadConditions` |weather-related road surface conditions (`weatherRelatedRoadConditionType`,
+|`sit:WeatherRelatedRoadConditions` |weather-related road surface conditions (`weatherRelatedRoadConditionType`,
 e.g. ice, snow, surface water – `surfaceWater`, slippery road – `slippery`)
 |===
 
@@ -142,7 +147,7 @@ predefined locations; the message only
 references them and the consumer looks the location up by identifier and version.
 
 The reference is given in the `locationReference` element of type `loc:LocationByReference` with the
-nested `predefinedLocationReference`; the `targetClass` attribute has the fixed value
+nested `predefinedLocationReference`; the `@targetClass` attribute has the fixed value
 `loc:PredefinedLocation`.
 
 The `@id` and `@version` attributes of the reference correspond to the identifier and version of the
@@ -160,7 +165,7 @@ The description of the predefined locations themselves is covered by the documen
 
 If the phenomenon concerns several sections at once, the record may reference a *group* of predefined
 locations: the `locationReference` element is then of type `loc:LocationGroupByReference` with the nested
-`predefinedLocationGroupReference` and `targetClass` = `loc:PredefinedLocationGroup`.
+`predefinedLocationGroupReference` and `@targetClass` = `loc:PredefinedLocationGroup`.
 
 .Reference to a group of predefined locations (sample `strong-wind-loc_group.xml`)
 [source,xml]

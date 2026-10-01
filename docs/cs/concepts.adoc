@@ -9,33 +9,35 @@ se proto ve zprávě neuvádí popisem, ale jen odkazem na tento úsek (viz <<po
 
 Formát vychází z formátu `cz-ndic_d2-common`: přebírá jeho záznamy o povětrnostních podmínkách a zužuje je
 na výstrahy meteohlásek. Na rozdíl od něj popisuje polohu jen odkazem na předdefinovaný úsek a připouští
-měřenou hodnotu vlhkosti. Formát vychází z DATEX II publikace `SituationPublication` <<EN16157-3>>
+měřenou hodnotu vlhkosti. Formát vychází z DATEX II publikace `sit:SituationPublication` <<EN16157-3>>
 a používá model DATEX II 3.7.
 
 [[obalka]]
 === Obálka a hlavička publikace
 
 Každá zpráva je dokument DATEX II 3 s kořenovým elementem `d2:payload`. Atribut `xsi:type` kořenového elementu určuje typ
-publikace (zde `sit:SituationPublication`), atribut `modelBaseVersion="3"` verzi modelu a atribut `lang` výchozí jazyk
+publikace (zde `sit:SituationPublication`), atribut `modelBaseVersion="3"` verzi modelu a atribut `@lang` výchozí jazyk
 textů.
 
 Formát, podle kterého je zpráva sestavena, identifikují výhradně atributy kořenového elementu:
 
 [horizontal]
-`profileName`:: identifikátor formátu bez verze (`cz-ndic_d2-weather`),
-`profileVersion`:: verze formátu (`2.0`).
+`@profileName`:: identifikátor formátu bez verze (`cz-ndic_d2-weather`),
+`@profileVersion`:: verze formátu (`2.0`).
 
 Hlavička publikace obsahuje:
 
-* `feedType` – identifikátor zdroje dat, ze kterého zpráva pochází. Formát zprávy určují atributy
-  `profileName` a `profileVersion`, nikoli `feedType`. Element `feedDescription` se nepoužívá.
-* `publicationTime` – čas vytvoření obsahu publikace. Pokud se obsah od předchozí publikace nezměnil,
-  zůstává čas původní; nový čas vzniká jen se
-  změnou obsahu.
-* `publicationCreator` – poskytovatel publikace: kód země malými písmeny (`cz`) a zkratka
-  poskytovatele (`nationalIdentifier`).
-* `headerInformation` – způsob nakládání s informacemi; NDIC uvádí vždy `confidentiality`
-  = `noRestriction` a `informationStatus` = `real`.
+* `feedType` – identifikátor zdroje dat, ze kterého zpráva pochází:
+** formát zprávy určují atributy `@profileName` a `@profileVersion`, nikoli `feedType`,
+** element `feedDescription` se nepoužívá.
+* `publicationTime` – čas vytvoření obsahu publikace; pokud se obsah od předchozí publikace nezměnil, zůstává
+  čas původní; nový čas vzniká jen se změnou obsahu.
+* `publicationCreator` – poskytovatel publikace:
+** kód země malými písmeny (`cz`),
+** zkratka poskytovatele (`nationalIdentifier`).
+* `headerInformation` – způsob nakládání s informacemi; NDIC uvádí vždy:
+** `confidentiality` = `noRestriction`,
+** `informationStatus` = `real`.
 
 Všechny časové údaje ve zprávě se uvádějí včetně časové zóny.
 
@@ -87,8 +89,9 @@ include::{samplesdir}/strong-wind.xml[tag=record-meta,indent=0]
 </sit:situationRecord>
 ----
 
-* `probabilityOfOccurrence` – `certain` pro naměřený jev (např. hustá mlha), `riskOf` pro jev, který
-  hrozí (např. nebezpečí akvaplaningu – vzorek `aquaplaning.xml`).
+* `probabilityOfOccurrence`:
+** `certain` – naměřený jev (např. hustá mlha),
+** `riskOf` – jev, který hrozí (např. nebezpečí akvaplaningu – vzorek `aquaplaning.xml`).
 * `safetyRelatedMessage` – `true` označuje informaci související s bezpečností silničního provozu podle
   nařízení v přenesené pravomoci (EU) č. 886/2013 (SRTI).
 * `source` – původce informace (`sourceIdentification`, `sourceName`), tj. správce meteohlásek.
@@ -97,15 +100,15 @@ include::{samplesdir}/strong-wind.xml[tag=record-meta,indent=0]
 [[typy]]
 === Typy záznamů a popis podmínek
 
-Typ záznamu odpovídá zjištěnému jevu. Formát používá tyto typy (potomci třídy `Conditions`):
+Typ záznamu odpovídá zjištěnému jevu. Formát používá tyto typy (potomci třídy `sit:Conditions`):
 
 [cols="2,4",options="header"]
 |===
 |Typ záznamu |Obsah
-|`PoorEnvironmentConditions` |nepříznivé podmínky prostředí (`poorEnvironmentType`), doplněné měřenými
+|`sit:PoorEnvironmentConditions` |nepříznivé podmínky prostředí (`poorEnvironmentType`), doplněné měřenými
 hodnotami: viditelnost (`visibility`), vítr (`wind`, rychlost v m/s), teplota (`temperature`), srážky
 (`precipitationDetail`), vlhkost (`humidity`)
-|`WeatherRelatedRoadConditions` |stav vozovky vlivem počasí (`weatherRelatedRoadConditionType`, např.
+|`sit:WeatherRelatedRoadConditions` |stav vozovky vlivem počasí (`weatherRelatedRoadConditionType`, např.
 náledí, sníh, voda na vozovce – `surfaceWater`, kluzká vozovka – `slippery`)
 |===
 
@@ -137,7 +140,7 @@ Poloha události je vždy předem známý úsek silnice přiřazený meteohlásc
 identifikátoru a verze.
 
 Odkaz se uvádí v elementu `locationReference` typu `loc:LocationByReference` s vnořeným
-`predefinedLocationReference`; atribut `targetClass` má pevnou hodnotu `loc:PredefinedLocation`.
+`predefinedLocationReference`; atribut `@targetClass` má pevnou hodnotu `loc:PredefinedLocation`.
 
 Atributy `@id` a `@version` odkazu odpovídají identifikátoru a verzi předdefinované polohy. Identifikátor
 se při změně popisu polohy nemění; změna geometrie vytváří novou verzi.
@@ -152,7 +155,7 @@ Metody popisu samotných předdefinovaných poloh popisuje dokumentace formátu 
 
 Týká-li se jev více úseků najednou, může záznam odkazovat na *skupinu* předdefinovaných poloh: element
 `locationReference` je pak typu `loc:LocationGroupByReference` s vnořeným
-`predefinedLocationGroupReference` a `targetClass` = `loc:PredefinedLocationGroup`.
+`predefinedLocationGroupReference` a `@targetClass` = `loc:PredefinedLocationGroup`.
 
 .Odkaz na skupinu předdefinovaných poloh (vzorek `strong-wind-loc_group.xml`)
 [source,xml]

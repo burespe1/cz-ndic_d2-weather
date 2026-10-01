@@ -8,5 +8,5 @@
 * Changes compared to version 1.2 (DATEX II 2.3):
 ** The format has been migrated to the DATEX II 3.7 model. The `d2LogicalModel`
    and `exchange` envelopes are not used; the root is `d2:payload`, the format is identified by the
-   `profileName` and `profileVersion` attributes.
+   `@profileName` and `@profileVersion` attributes.
 ** `safetyRelatedMessage` is part of the model (formerly a national extension).

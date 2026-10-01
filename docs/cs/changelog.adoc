@@ -7,5 +7,5 @@
   cz-ndic_d2-weather-v1.2 (DATEX II 2.3).
 * Změny oproti verzi 1.2 (DATEX II 2.3):
 ** Formát je převeden na model DATEX II 3.7. Obálky `d2LogicalModel` a `exchange`
-   se nepoužívají; kořen je `d2:payload`, formát určují atributy `profileName` a `profileVersion`.
+   se nepoužívají; kořen je `d2:payload`, formát určují atributy `@profileName` a `@profileVersion`.
 ** `safetyRelatedMessage` je součástí modelu (dříve národní rozšíření).
