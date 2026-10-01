@@ -8,8 +8,10 @@ the format.
 Each road weather station is assigned a known road section covering both directions of travel. The
 location of an event is therefore not described in the message; it is only referenced (see <<polohy>>).
 
-The format is based on the DATEX II publication `SituationPublication` <<EN16157-3>> and uses only a small
-subset of its structures. It uses the DATEX II 3.7 model.
+The format is derived from the format `cz-ndic_d2-common`: it takes over its records on weather conditions
+and narrows them to road weather station warnings. Unlike common, it describes the location only by a
+reference to a predefined section and allows a measured humidity value. The format is based on the
+DATEX II publication `SituationPublication` <<EN16157-3>> and uses the DATEX II 3.7 model.
 
 [[obalka]]
 === Envelope and publication header
@@ -26,9 +28,8 @@ The format the message conforms to is identified solely by attributes of the roo
 
 The publication header contains:
 
-* `feedType` – identifier of the data source (distribution) in the register of the national access point
-  <<nap>>. The source refers to the format in which it provides the data; the format of the message is
-  identified by the `profileName` and `profileVersion` attributes. The `feedDescription` element is not used.
+* `feedType` – identifier of the data source the message comes from. The format of the message is
+  identified by the `profileName` and `profileVersion` attributes, not by `feedType`. The `feedDescription` element is not used.
 * `publicationTime` – time the publication content was created. If the content has not changed since
   the previous publication, the original time is kept; a new time is set only when the content changes.
 * `publicationCreator` – publication provider: country code in lower case (`cz`) and provider

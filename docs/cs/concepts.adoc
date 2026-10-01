@@ -7,8 +7,10 @@ vítr, náledí či intenzivní srážky. Pravidelně měřená data meteostanic
 Každá meteohláska má přiřazen předem známý úsek silnice, který zahrnuje oba směry jízdy. Poloha události
 se proto ve zprávě neuvádí popisem, ale jen odkazem na tento úsek (viz <<polohy>>).
 
-Formát vychází z DATEX II publikace `SituationPublication` <<EN16157-3>> a využívá jen malou podmnožinu
-jejích struktur. Používá model DATEX II 3.7.
+Formát vychází z formátu `cz-ndic_d2-common`: přebírá jeho záznamy o povětrnostních podmínkách a zužuje je
+na výstrahy meteohlásek. Na rozdíl od něj popisuje polohu jen odkazem na předdefinovaný úsek a připouští
+měřenou hodnotu vlhkosti. Formát vychází z DATEX II publikace `SituationPublication` <<EN16157-3>>
+a používá model DATEX II 3.7.
 
 [[obalka]]
 === Obálka a hlavička publikace
@@ -25,9 +27,8 @@ Formát, podle kterého je zpráva sestavena, identifikují výhradně atributy 
 
 Hlavička publikace obsahuje:
 
-* `feedType` – identifikátor zdroje dat (distribuce) v registru národního přístupového bodu <<nap>>.
-  Zdroj odkazuje na formát, ve kterém data poskytuje; formát zprávy určují atributy `profileName`
-  a `profileVersion`. Element `feedDescription` se nepoužívá.
+* `feedType` – identifikátor zdroje dat, ze kterého zpráva pochází. Formát zprávy určují atributy
+  `profileName` a `profileVersion`, nikoli `feedType`. Element `feedDescription` se nepoužívá.
 * `publicationTime` – čas vytvoření obsahu publikace. Pokud se obsah od předchozí publikace nezměnil,
   zůstává čas původní; nový čas vzniká jen se
   změnou obsahu.
