@@ -49,9 +49,11 @@ include::{samplesdir}/visibility.xml[tag=header,indent=2]
 [[situace]]
 === Situations and situation records
 
-Each event detected by a road weather station is described by a `situation` element with a unique
-identifier (`@id`). The situation contains the time of its last change `situationVersionTime`, the
-`headerInformation` header and one `situationRecord`.
+Each continuous event detected by a road weather station is described by a `situation` element with a
+unique identifier (`@id`). While the phenomenon lasts, the situation keeps its identifier and the version of
+its record increases with each update (<<platnost>>). When the phenomenon ends, the situation ends too; a new
+occurrence at the same place is a new situation with a new identifier. The situation contains the time of
+its last change `situationVersionTime`, the `headerInformation` header and one `situationRecord`.
 
 .Situation (sample `visibility.xml`)
 [source,xml]

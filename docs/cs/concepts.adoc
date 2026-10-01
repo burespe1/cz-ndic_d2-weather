@@ -49,9 +49,11 @@ include::{samplesdir}/visibility.xml[tag=header,indent=2]
 [[situace]]
 === Situace a záznamy situace
 
-Každá událost zjištěná meteohláskou je popsána elementem `situation` s jednoznačným identifikátorem
-(`@id`). Situace obsahuje čas své poslední změny `situationVersionTime`, hlavičku `headerInformation`
-a jeden záznam `situationRecord`.
+Každá nepřetržitá událost zjištěná meteohláskou je popsána elementem `situation` s jednoznačným
+identifikátorem (`@id`). Dokud jev trvá, situace si identifikátor ponechává a s každou aktualizací roste verze
+jejího záznamu (<<platnost>>). Skončí-li jev, končí i situace; jeho nový výskyt na stejném místě je nová situace
+s novým identifikátorem. Situace obsahuje čas své poslední změny `situationVersionTime`, hlavičku
+`headerInformation` a jeden záznam `situationRecord`.
 
 .Situace (vzorek `visibility.xml`)
 [source,xml]
